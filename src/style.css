@@ -1,0 +1,56 @@
+body {
+    margin: 0;
+}
+
+header {
+    background-color: red;
+    display: flex;
+}
+
+header nav {
+    flex: 1;
+    height: 30px;
+    background-color: green;
+    display: flex;
+    align-items: stretch;
+    gap: 5px;
+}
+
+nav button {
+    min-width: 100px;
+}
+
+header button {
+    flex: 0 0 30px;
+}
+
+main {
+    height: calc(100vh - 80px);
+    background-color: blue;
+}
+
+section {
+    background-color: purple;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 5px 15px;
+}
+
+section * {
+    margin: 0;
+}
+
+section p {
+    margin-right: auto;
+}
+
+.container {
+    background-color: white;
+    height: 50px;
+    display: flex;
+}
+
+.container button {
+    flex: 1;
+}
