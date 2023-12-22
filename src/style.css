@@ -16,12 +16,23 @@ header nav {
     gap: 5px;
 }
 
-nav button {
-    min-width: 100px;
+.project {
+    flex: 1 1 110px;
 }
 
-header button {
-    flex: 0 0 30px;
+.project button {
+    width: calc(100% - 30px);
+    height: 30px;
+    margin-right: -5px;
+}
+
+.project .remove {
+    width: 30px;
+}
+
+.new-project {
+    min-width: 30px;
+    margin-left: 5px;
 }
 
 main {
@@ -43,6 +54,11 @@ section * {
 
 section p {
     margin-right: auto;
+}
+
+.new-item {
+    width: 100vw;
+    height: 30px;
 }
 
 .container {

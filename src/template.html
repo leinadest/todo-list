@@ -8,13 +8,24 @@
 <body>
     <header>
         <nav>
-            <button>Home</button>
-            <button>Project #1</button>
+            <div class="project">
+                <button>Home</button>
+                <button class="remove">X</button>
+            </div>
+            <div class="project">
+                <button>Project #1</button>
+                <button class="remove">X</button>
+            </div>
+            <div class="project">
+                <button>Project #2</button>
+                <button class="remove">X</button>
+            </div>
         </nav>
-        <button>+</button>
+        <button class="new-project">+</button>
     </header>
     <main>
         <section>
+            <div>Due: 2023/12/22</div>
             <div>Priority</div>
             <h2>Title</h2>
             <p>Description</p>
@@ -23,6 +34,7 @@
             <input type="checkbox">
         </section>
         <section>
+            <div>Due: 2023/12/22</div>
             <div>Priority</div>
             <h2>Title</h2>
             <p>Description</p>
@@ -30,6 +42,7 @@
             <button>Edit</button>
             <input type="checkbox">
         </section>
+        <button class="new-item">Create new item +</button>
     </main>
     <div class="container">
         <button>Delete</button>
