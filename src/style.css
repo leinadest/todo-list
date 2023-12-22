@@ -1,5 +1,8 @@
 body {
+    height: 100vh;
     margin: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
@@ -36,24 +39,31 @@ header nav {
 }
 
 main {
-    height: calc(100vh - 80px);
+    flex: 1;
     background-color: blue;
 }
 
 section {
     background-color: purple;
-    display: flex;
-    align-items: center;
-    gap: 15px;
     padding: 5px 15px;
+    display: grid;
+    grid-template-columns: 120px 75px 1fr 75px 25px;
+    gap: 15px;
+    align-items: center;
 }
 
 section * {
     margin: 0;
 }
 
-section p {
-    margin-right: auto;
+section div {
+    width: calc(100vw - 400px);
+}
+
+section p, section h2 {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .new-item {
@@ -65,8 +75,18 @@ section p {
     background-color: white;
     height: 50px;
     display: flex;
+    visibility: hidden;
+    position: absolute;
 }
 
 .container button {
     flex: 1;
+}
+
+dialog form > * {
+    margin: 10px 5px 0 0;
+}
+
+label[for='description'] {
+    display: block;
 }

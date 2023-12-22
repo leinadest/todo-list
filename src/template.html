@@ -25,21 +25,13 @@
     </header>
     <main>
         <section>
-            <div>Due: 2023/12/22</div>
-            <div>Priority</div>
-            <h2>Title</h2>
-            <p>Description</p>
+            <label>Due: 2023/12/22</label>
+            <label>Priority</label>
+            <div>
+                <h3>Title</h3>
+                <p>Description</p>
+            </div>
             <button>Details</button>
-            <button>Edit</button>
-            <input type="checkbox">
-        </section>
-        <section>
-            <div>Due: 2023/12/22</div>
-            <div>Priority</div>
-            <h2>Title</h2>
-            <p>Description</p>
-            <button>Details</button>
-            <button>Edit</button>
             <input type="checkbox">
         </section>
         <button class="new-item">Create new item +</button>
@@ -48,5 +40,31 @@
         <button>Delete</button>
         <button>Move</button>
     </div>
+    <dialog>
+        <form>
+            <label for="title">Title: </label>
+            <input type="text" id="title">
+            <label for="due-date">Due date: </label>
+            <input type="date" id="due-date">
+            <label for="description">Description: </label>
+            <textarea id="description" cols="50" rows="5"></textarea>
+            <fieldset>
+                <legend>Item priority:</legend>
+                <div>
+                    <input type="radio" id="high" name="priority" value="High">
+                    <label for="high">High</label>
+                </div>
+                <div>
+                    <input type="radio" id="medium" name="priority" value="Medium">
+                    <label for="medium">Medium</label>
+                </div>
+                <div>
+                    <input type="radio" id="low" name="priority" value="Low">
+                    <label for="low">Low</label>
+                </div>
+            </fieldset>
+            <button>Done</button>
+        </form>
+    </dialog>
 </body>
 </html>
