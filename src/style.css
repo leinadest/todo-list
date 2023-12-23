@@ -29,7 +29,7 @@ header nav {
     margin-right: -5px;
 }
 
-.project .remove {
+.project .delete {
     width: 30px;
 }
 
@@ -47,7 +47,7 @@ section {
     background-color: purple;
     padding: 5px 15px;
     display: grid;
-    grid-template-columns: 120px 75px 1fr 75px 25px;
+    grid-template: 40px / 120px 75px 1fr 75px 25px;
     gap: 15px;
     align-items: center;
 }
@@ -60,7 +60,7 @@ section div {
     width: calc(100vw - 400px);
 }
 
-section p, section h2 {
+section p, section h3 {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
