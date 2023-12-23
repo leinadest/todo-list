@@ -1,3 +1,5 @@
+import * as Projects from './projects.js';
+
 export function getInputtedItem() {
     let title = document.querySelector('#title').value;
     let dueDate = document.querySelector('#due-date').value;
@@ -8,23 +10,10 @@ export function getInputtedItem() {
     if (dueDate == '') dueDate = 'xxxx-xx-xx';
     priority = priority == null ? 'Medium' : priority.value;
 
-    return {title, dueDate, description, priority};
+    return [dueDate, priority, title, description];
 }
 
-export function refreshOptionsContainer() {
-    const itemsAreChecked = document.querySelector('input[type="checkbox"]:checked') != null;
-    const optionsContainer = document.querySelector('.container');
-    if (itemsAreChecked && optionsContainer.style.visibility != 'visible') {
-        optionsContainer.style.visibility = 'visible';
-        optionsContainer.style.position = 'relative';
-    }
-    if (!itemsAreChecked && optionsContainer.style.visibility == 'visible') {
-        optionsContainer.style.visibility = 'hidden';
-        optionsContainer.style.position = 'absolute';
-    }
-}
-
-export function addItem({title, dueDate, description, priority}) {
+export function addItem([dueDate, priority, title, description]) {
     const main = document.querySelector('main');
     const newItemBtn = document.querySelector('.new-item');
 
@@ -65,4 +54,17 @@ export function deleteItems() {
         const item = box.parentNode;
         item.parentNode.removeChild(item);
     });
+}
+
+export function refreshOptionsContainer() {
+    const itemsAreChecked = document.querySelector('input[type="checkbox"]:checked') != null;
+    const optionsContainer = document.querySelector('.container');
+    if (itemsAreChecked && optionsContainer.style.visibility != 'visible') {
+        optionsContainer.style.visibility = 'visible';
+        optionsContainer.style.position = 'relative';
+    }
+    if (!itemsAreChecked && optionsContainer.style.visibility == 'visible') {
+        optionsContainer.style.visibility = 'hidden';
+        optionsContainer.style.position = 'absolute';
+    }
 }

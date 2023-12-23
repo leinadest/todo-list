@@ -16,11 +16,14 @@ header nav {
     background-color: green;
     display: flex;
     align-items: stretch;
-    gap: 5px;
+    padding-bottom: 15px;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .project {
-    flex: 1 1 110px;
+    flex: 1;
+    min-width: 50px;
 }
 
 .project button {
@@ -34,7 +37,8 @@ header nav {
 }
 
 .new-project {
-    min-width: 30px;
+    width: 30px;
+    height: 30px;
     margin-left: 5px;
 }
 
@@ -60,7 +64,7 @@ section div {
     width: calc(100vw - 400px);
 }
 
-section p, section h3 {
+section p, section h3, .project button {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;

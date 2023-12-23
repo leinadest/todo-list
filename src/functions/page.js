@@ -1,4 +1,5 @@
 import * as Items from './items.js';
+import * as Projects from './projects.js';
 
 function loadHeader() {
     const body = document.querySelector('body');
@@ -9,38 +10,28 @@ function loadHeader() {
     const nav = document.createElement('nav');
     header.appendChild(nav);
 
-    const project = document.createElement('div');
-    project.classList = 'project';
-    nav.appendChild(project);
-
-    const projectBtn = document.createElement('button');
-    projectBtn.textContent = 'Home';
-    project.appendChild(projectBtn);
-
-    const projectDeleteBtn = document.createElement('button');
-    projectDeleteBtn.classList = 'delete';
-    projectDeleteBtn.textContent = 'X';
-    project.appendChild(projectDeleteBtn);
+    Projects.addProjectTab('Home');
 
     const newProjectBtn = document.createElement('button');
     newProjectBtn.classList = 'new-project';
     newProjectBtn.textContent = '+';
+    newProjectBtn.addEventListener('click', () => {
+        document.querySelector('.project-dialog').showModal();
+    });
     header.appendChild(newProjectBtn);
 }
 
-function loadItems() {
+function loadProjects() {
     const body = document.querySelector('body');
 
     const main = document.createElement('main');
     body.appendChild(main);
 
-    const newItemBtn = document.createElement('button');
-    newItemBtn.classList = 'new-item';
-    newItemBtn.textContent = 'Create new item +';
-    newItemBtn.addEventListener('click', () => {
-        document.querySelector('dialog').showModal();
-    });
-    main.appendChild(newItemBtn);
+    Projects.getStoredProjects().forEach((project) => {
+        Projects.addProjectTab(project);
+    })
+
+    Projects.loadCurrentProject();
 }
 
 function createOptions() {
@@ -55,6 +46,7 @@ function createOptions() {
     deleteBtn.addEventListener('click', () => {
         Items.deleteItems();
         Items.refreshOptionsContainer();
+        Projects.saveCurrentProject();
     });
     container.appendChild(deleteBtn);
 
@@ -63,17 +55,19 @@ function createOptions() {
     container.appendChild(moveBtn);
 }
 
-function createDialog() {
+function createItemDialog() {
     const body = document.querySelector('body');
 
     const dialog = document.createElement('dialog');
+    dialog.classList = 'item-dialog';
     body.appendChild(dialog);
 
     const form = document.createElement('form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();
+        document.querySelector('.item-dialog').close();
         Items.addItem(Items.getInputtedItem());
-        document.querySelector('dialog').close();
+        Projects.saveCurrentProject();
     })
     dialog.appendChild(form);
 
@@ -137,9 +131,41 @@ function createDialog() {
     form.appendChild(doneBtn);
 }
 
+function createProjectDialog() {
+    const body = document.querySelector('body');
+
+    const dialog = document.createElement('dialog');
+    dialog.classList = 'project-dialog';
+    body.appendChild(dialog);
+
+    const form = document.createElement('form');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        document.querySelector('.project-dialog').close();
+        const name = nameInput.value == '' ? 'Unnamed' : nameInput.value;
+        Projects.addProjectTab(name);
+    })
+    dialog.appendChild(form);
+
+    const nameLabel = document.createElement('label');
+    nameLabel.setAttribute('for', 'name');
+    nameLabel.textContent = 'Project name: ';
+    form.appendChild(nameLabel);
+
+    const nameInput = document.createElement('input');
+    nameInput.type = 'text';
+    nameInput.id = 'name';
+    form.appendChild(nameInput);
+
+    const doneBtn = document.createElement('button');
+    doneBtn.textContent = 'Done';
+    form.appendChild(doneBtn);
+}
+
 export default function createPage() {
     loadHeader();
-    loadItems();
+    loadProjects();
     createOptions();
-    createDialog();
+    createItemDialog();
+    createProjectDialog();
 }
