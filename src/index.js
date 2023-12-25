@@ -1,4 +1,6 @@
 import './style.css';
-import createPage from './functions/page.js';
+import loadPage from './modules/components.js';
+import { updateHome } from './modules/data.js';
 
-createPage();
+updateHome();
+loadPage();
