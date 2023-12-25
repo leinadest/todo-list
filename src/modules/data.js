@@ -64,7 +64,10 @@ export function removeSavedProject(projectName) {
 
 export function removeSavedItem(itemNode) {
     const itemData = itemToString(itemNode);
+
+    // Remove item from Home
     localStorage['Home'] = localStorage['Home'].replace(itemData, '');
+
     // Search and remove item from its project outside Home
     getSavedProjects().forEach((projectName) => {
         if (
@@ -77,6 +80,10 @@ export function removeSavedItem(itemNode) {
         }
     });
     updateHome();
+}
+
+export function saveEmptyProject(projectName) {
+    localStorage[projectName] = '';
 }
 
 // UI DATA

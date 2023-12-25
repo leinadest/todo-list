@@ -43,10 +43,12 @@ function loadProjectTab(projectName) {
 function loadMain() {
     const main = createDOMElement('main', document.querySelector('body'));
 
-    const newItemBtn = createDOMElement('button', main, 'new-item', 
-                                        'Create new item +');
+    const newItemBtn = createDOMElement('button', main, 'new-item');
+    newItemBtn.textContent = 'Create new item +';
     newItemBtn.addEventListener('click', () => {
-        document.querySelector('.item-dialog').showModal();
+        const itemDialog = document.querySelector('.item-dialog');
+        itemDialog.dataset.event = 'new item';
+        itemDialog.showModal();
     });
 
     loadCurrentProject();
@@ -85,7 +87,13 @@ function loadItem([dueDate, priority, title, description]) {
     const itemDescription = createDOMElement('p', container, '', description)
 
     const detailsBtn = createDOMElement('button', item, '', 'Details');
-
+    detailsBtn.addEventListener('click', () => {
+        item.dataset.needsEdit = true;
+        const itemDialog = document.querySelector('.item-dialog');
+        itemDialog.dataset.event = 'edit item';
+        itemDialog.showModal();
+    });
+    
     const checkbox = createDOMElement('input', item)
     checkbox.type = 'checkbox';
     checkbox.addEventListener('change', refreshOptionsVisibility);
@@ -134,7 +142,18 @@ function loadItemDialog() {
     const form = createDOMElement('form', dialog);
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        loadItem(Data.getItemInput());
+        if (dialog.dataset.event == 'new item') {
+            loadItem(Data.getItemInput());
+        }
+        if (dialog.dataset.event == 'edit item') {
+            const itemToEdit = document.querySelector('[data-needs-edit="true"]');
+            const [dueDate, priority, title, description] = Data.getItemInput();
+            itemToEdit.querySelector('label').textContent = 'Due: ' + dueDate;
+            itemToEdit.querySelector('label:nth-child(2)').textContent = priority;
+            itemToEdit.querySelector('h3').textContent = title;
+            itemToEdit.querySelector('p').textContent = description;
+            delete itemToEdit.dataset.needsEdit;
+        }
         Data.saveCurrentProject();
         document.querySelector('.item-dialog').close();
     });
@@ -195,6 +214,7 @@ function loadProjectDialog() {
         document.querySelector('.project-dialog').close();
         const projectName = nameInput.value == '' ? 'Unnamed' : nameInput.value;
         loadProjectTab(projectName);
+        Data.saveEmptyProject(projectName);
     });
 
     const nameLabel = createDOMElement('label', form, '', 'Project name: ');
