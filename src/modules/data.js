@@ -86,6 +86,12 @@ export function saveEmptyProject(projectName) {
     localStorage[projectName] = '';
 }
 
+export function saveItem(itemNode, projectName) {
+    const itemData = itemToString(itemNode);
+    localStorage[projectName] += itemData;
+    updateHome();
+}
+
 // UI DATA
 
 export function getSelectedItems() {

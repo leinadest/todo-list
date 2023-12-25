@@ -117,6 +117,9 @@ function loadOptions() {
     });
 
     const moveBtn = createDOMElement('button', container, '', 'Move');
+    moveBtn.addEventListener('click', () => {
+        document.querySelector('.move-dialog').showModal();
+    });
 }
 
 export function refreshOptionsVisibility() {
@@ -228,6 +231,40 @@ function loadProjectDialog() {
     doneBtn.textContent = 'Done';
 }
 
+function loadMoveDialog() {
+    const body = document.querySelector('body');
+
+    const dialog = createDOMElement('dialog', body, 'move-dialog');
+
+    const form = createDOMElement('form', dialog);
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        document.querySelector('.move-dialog').close();
+        Data.getSelectedItems().forEach((item) => {
+            Data.removeSavedItem(item);
+            Data.saveItem(item, projectSelect.value);
+            if (Data.getCurrentProjectName() != 'Home') {
+                item.parentNode.removeChild(item);
+            }
+        });
+        refreshOptionsVisibility();
+    });
+
+    const selectLabel = createDOMElement('label', form, '', 'Move items to: ');
+    selectLabel.setAttribute('for', 'project-select');
+
+    const projectSelect = createDOMElement('select', form);
+    projectSelect.id = 'project-select';
+
+    Data.getSavedProjects().forEach((projectName) => {
+        const selectOption = createDOMElement('option', projectSelect, '', projectName);
+        selectOption.value = projectName;
+    });
+
+    const doneBtn = createDOMElement('button', form, '', 'Done');
+    doneBtn.textContent = 'Done';
+}
+
 // PAGE
 
 export default function loadPage() {
@@ -236,4 +273,5 @@ export default function loadPage() {
     loadOptions();
     loadItemDialog();
     loadProjectDialog();
+    loadMoveDialog();
 }
