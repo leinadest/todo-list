@@ -11,6 +11,7 @@ function loadHeader() {
     const projectNav = createDOMElement('nav', header);
 
     Data.getSavedProjects().forEach((projectName) => loadProjectTab(projectName));
+    document.querySelector('.project').style.backgroundColor = 'darkgray';
 
     const newProjectBtn = createDOMElement('button', header, 'new-project', '+');
     newProjectBtn.addEventListener('click', () => {
@@ -21,20 +22,35 @@ function loadHeader() {
 function loadProjectTab(projectName) {
     const projectNav = document.querySelector('nav');
 
-    const project = createDOMElement('div', projectNav, 'project');
-
-    const projectBtn = createDOMElement('button', project, '', projectName);
-    projectBtn.addEventListener('click', () => {
+    const projectDiv = createDOMElement('div', projectNav, 'project');
+    projectDiv.dataset.name = projectName;
+    projectDiv.addEventListener('click', () => {
+        const currentProjectDiv = document.querySelector(
+            `[data-name="${Data.getCurrentProjectName()}"]`
+        );
+        if (currentProjectDiv != null) {
+            currentProjectDiv.style.backgroundColor = null;
+        }
+        projectDiv.style.backgroundColor = 'darkgray';
         Data.setCurrentProjectName(projectName);
         loadCurrentProject();
     });
 
-    const projectDeleteBtn = createDOMElement('button', project, 'delete', 'X');
-    projectDeleteBtn.addEventListener('click', () => {
-        projectNav.removeChild(project);
+    const projectLabel = createDOMElement('label', projectDiv, '', projectName);
+
+    if (projectName == 'Home') return;
+
+    const projectDeleteBtn = createDOMElement('button', projectDiv, '', 'X');
+    projectDeleteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        projectNav.removeChild(projectDiv);
         Data.removeSavedProject(projectName);
-        Data.setCurrentProjectName('Home');
-        loadCurrentProject();
+        if (Data.getCurrentProjectName() == projectName) {
+            document.querySelector('.project').style.backgroundColor = 'darkgray';
+            Data.setCurrentProjectName('Home');
+            loadCurrentProject();
+        }
+        if (Data.getCurrentProjectName() == 'Home') loadCurrentProject();
     });
 }
 
@@ -44,7 +60,7 @@ function loadMain() {
     const main = createDOMElement('main', document.querySelector('body'));
 
     const newItemBtn = createDOMElement('button', main, 'new-item');
-    newItemBtn.textContent = 'Create new item +';
+    newItemBtn.textContent = 'Create New Item';
     newItemBtn.addEventListener('click', () => {
         const itemDialog = document.querySelector('.item-dialog');
         itemDialog.dataset.event = 'new item';
@@ -118,6 +134,9 @@ function loadOptions() {
 
     const moveBtn = createDOMElement('button', container, '', 'Move');
     moveBtn.addEventListener('click', () => {
+        const moveDialog = document.querySelector('.move-dialog');
+        moveDialog.parentNode.removeChild(moveDialog);
+        loadMoveDialog();
         document.querySelector('.move-dialog').showModal();
     });
 }
@@ -127,11 +146,9 @@ export function refreshOptionsVisibility() {
     const options = document.querySelector('.container');
     if (itemsAreChecked && options.style.visibility != 'visible') {
         options.style.visibility = 'visible';
-        options.style.position = 'relative';
     }
     if (!itemsAreChecked && options.style.visibility == 'visible') {
         options.style.visibility = 'hidden';
-        options.style.position = 'absolute';
     }
 }
 

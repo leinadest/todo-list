@@ -1,39 +1,79 @@
 body {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
     height: 100vh;
     margin: 0;
     display: flex;
     flex-direction: column;
 }
 
+header, nav {
+    background-color: black;
+}
+
+button {
+    color: white;
+    border-color: white;
+    background-color: black;
+}
+
 header {
-    background-color: red;
     display: flex;
 }
 
 header nav {
     flex: 1;
     height: 30px;
-    background-color: green;
     display: flex;
+    gap: 2px;
     align-items: stretch;
     padding-bottom: 15px;
-    overflow-x: auto;
+    overflow-x: scroll;
     overflow-y: hidden;
+}
+
+.new-project {
+    font-size: 30px;
+    padding: 0;
+    display: grid;
+    align-content: center;
 }
 
 .project {
     flex: 1;
     min-width: 50px;
+    height: 30px;
+    padding: 0 3px 0 5px;
+    border: 2px solid white;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.project:hover, button:hover {
+    background-color: gray;
+}
+
+.project label {
+    width: calc(100% - 20px);
+    user-select: none;
+    word-wrap: break-word;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .project button {
-    width: calc(100% - 30px);
-    height: 30px;
-    margin-right: -5px;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    margin-left: auto;
+    border: 0 transparent;
+    border-radius: 50%;
 }
 
-.project .delete {
-    width: 30px;
+.project button:hover {
+    background-color: #505050;
 }
 
 .new-project {
@@ -43,15 +83,15 @@ header nav {
 }
 
 main {
+    background-color: black;
     flex: 1;
-    background-color: blue;
 }
 
 section {
-    background-color: purple;
+    background-color: #202020;
     padding: 5px 15px;
     display: grid;
-    grid-template: 40px / 120px 75px 1fr 75px 25px;
+    grid-template: 40px / 120px 75px calc(100vw - 390px) 75px 30px;
     gap: 15px;
     align-items: center;
 }
@@ -60,31 +100,40 @@ section * {
     margin: 0;
 }
 
-section div {
-    width: calc(100vw - 400px);
+section label {
+    font-size: 15px;
 }
 
-section p, section h3, .project button {
+section p, section h3 {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
 }
 
-.new-item {
-    width: 100vw;
+section input {
+    width: 30px;
     height: 30px;
 }
 
+.new-item {
+    font-size: 20px;
+    width: 100vw;
+    height: 40px;
+    position: sticky;
+    bottom: 0px;
+}
+
 .container {
-    background-color: white;
-    height: 50px;
-    display: flex;
+    width: 100vw;
     visibility: hidden;
-    position: absolute;
+    position: fixed;
+    bottom: 0px;
 }
 
 .container button {
-    flex: 1;
+    font-size: 20px;
+    width: 50%;
+    height: 40px;
 }
 
 dialog form > * {
@@ -93,4 +142,8 @@ dialog form > * {
 
 label[for='description'] {
     display: block;
+}
+
+button:hover, input:hover, .project:hover, .project label:hover {
+    cursor: pointer;
 }
