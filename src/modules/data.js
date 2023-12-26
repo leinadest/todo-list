@@ -111,13 +111,34 @@ export function getItemInput() {
     let title = document.querySelector('#title').value;
     let dueDate = document.querySelector('#due-date').value;
     const description = document.querySelector('#description').value;
-    let priority = document.querySelector('input[name="priority"]:checked');
+    let priority = document.querySelector(
+        'input[name="priority"]:checked'
+    ).value;
 
     if (title == '') title = 'Untitled Item';
     if (dueDate == '') dueDate = 'xxxx-xx-xx';
-    priority = priority == null ? 'Medium' : priority.value;
 
     return [dueDate, priority, title, description];
+}
+
+export function resetDialogInput(dialog) {
+    let inputs = dialog.querySelectorAll('input');
+    
+    inputs.forEach((input) => {
+        if (input.type != 'radio') {
+            input.value = '';
+        }
+    });
+
+    inputs = dialog.querySelectorAll('textarea');
+    inputs.forEach((input) => {
+        input.value = '';
+    });
+
+    const mediumPriority = dialog.querySelector(
+        '[value="Medium"]'
+    );
+    if (mediumPriority != null) mediumPriority.checked = true;
 }
 
 export function getCurrentProjectName() {

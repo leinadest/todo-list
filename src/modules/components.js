@@ -15,7 +15,9 @@ function loadHeader() {
 
     const newProjectBtn = createDOMElement('button', header, 'new-project', '+');
     newProjectBtn.addEventListener('click', () => {
-        document.querySelector('.project-dialog').showModal();
+        const projectDialog = document.querySelector('.project-dialog');
+        Data.resetDialogInput(projectDialog);
+        projectDialog.showModal();
     });
 }
 
@@ -64,6 +66,7 @@ function loadMain() {
     newItemBtn.addEventListener('click', () => {
         const itemDialog = document.querySelector('.item-dialog');
         itemDialog.dataset.event = 'new item';
+        Data.resetDialogInput(itemDialog);
         itemDialog.showModal();
     });
 
@@ -104,9 +107,20 @@ function loadItem([dueDate, priority, title, description]) {
 
     const detailsBtn = createDOMElement('button', item, '', 'Details');
     detailsBtn.addEventListener('click', () => {
-        item.dataset.needsEdit = true;
         const itemDialog = document.querySelector('.item-dialog');
+
+        item.dataset.needsEdit = true;
         itemDialog.dataset.event = 'edit item';
+
+        itemDialog.querySelector('#title').value = itemTitle.textContent;
+        itemDialog.querySelector('#due-date').value 
+            = itemDueDate.textContent.slice(5);
+        itemDialog.querySelector('#description').value 
+            = itemDescription.textContent;
+        itemDialog.querySelector(
+            `[value="${itemPriority.textContent}"]`
+        ).checked = true;
+
         itemDialog.showModal();
     });
     
@@ -214,6 +228,7 @@ function loadItemDialog() {
         priorityInput.id = priority;
         priorityInput.name = 'priority';
         priorityInput.value = priority;
+        if (priority == 'Normal') priorityInput.checked = true;
 
         const inputLabel = createDOMElement('label', container, '', priority);
         inputLabel.setAttribute('for', priority);
@@ -231,10 +246,19 @@ function loadProjectDialog() {
     const form = createDOMElement('form', dialog);
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        document.querySelector('.project-dialog').close();
         const projectName = nameInput.value == '' ? 'Unnamed' : nameInput.value;
-        loadProjectTab(projectName);
-        Data.saveEmptyProject(projectName);
+        if (!Data.getSavedProjects().includes(projectName)) {
+            document.querySelector('.project-dialog').close();
+            loadProjectTab(projectName);
+            Data.saveEmptyProject(projectName);
+            return;
+        }
+        if (form.querySelector('p') == null) {
+            const errorMessageP = createDOMElement('p', form);
+            errorMessageP.style.display = 'block';
+            errorMessageP.style.color = 'red';
+            errorMessageP.textContent = 'Please enter an original project name.';
+        }
     });
 
     const nameLabel = createDOMElement('label', form, '', 'Project name: ');
