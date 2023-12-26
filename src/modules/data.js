@@ -3,6 +3,9 @@ let currentProjectName = 'Home';
 // STORAGE DATA
 
 export function updateHome() {
+    if (!localStorage.hasOwnProperty('Home')) {
+        localStorage['Home'] = '';
+    }
     // Add all projects besides Home to homeData
     let homeData = '';
     Object.keys(localStorage).forEach((project) => {
@@ -50,7 +53,10 @@ export function getSavedCurrentProject() {
 }
 
 export function getSavedProjects() {
-    return Object.keys(localStorage);
+    let savedProjects = Object.keys(localStorage).filter((projectName) => {
+        if (projectName != 'Home') return true;
+    });
+    return ['Home'].concat(savedProjects);
 }
 
 export function removeSavedProject(projectName) {
